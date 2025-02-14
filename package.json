@@ -1,0 +1,12 @@
+{
+  "name": "com.fixed.numeric",
+  "displayName": "Fixed Numeric",
+  "version": "1.0.0",
+  "unity": "2020.3",
+  "description": "Mathematical implementation of fixed point.",
+  "keywords": [],
+  "category": "",
+  "dependencies": {
+    "com.unity.burst": "1.6.0-pre.2"
+  }
+}
