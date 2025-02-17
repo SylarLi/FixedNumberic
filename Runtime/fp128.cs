@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
@@ -319,6 +320,7 @@ namespace Fixed.Numeric
             return ret;
         }
 
+        [BurstDiscard]
         public static unsafe fp128 operator /(fp128 left, fp128 right)
         {
             if (right == 0)
@@ -366,6 +368,7 @@ namespace Fixed.Numeric
             return ret;
         }
 
+        [BurstDiscard]
         public static unsafe fp128 operator %(fp128 left, fp128 right)
         {
             if (right.m_hi == 0 && right.m_lo == 0)
