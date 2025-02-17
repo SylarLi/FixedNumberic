@@ -1,5 +1,5 @@
 # FixedNumeric
-Unity3d的定点数运算库，设计上兼容BurstCompiler
+Unity3d的定点数运算库(Fixed Point)，设计上兼容BurstCompiler
 
 提供S1Q31Q32的定点数的完整解决方案
 
