@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Unity.Burst;
+using System.Runtime.CompilerServices;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 
@@ -28,103 +28,122 @@ namespace Fixed.Numeric
 
         internal readonly ulong m_hi;
         internal readonly ulong m_lo;
-        
+
         public fp128(ulong hi, ulong lo)
         {
             m_hi = hi;
             m_lo = lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(byte value)
         {
             return new fp128(value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte(fp128 value)
         {
-            return (byte) value.m_hi;
+            return (byte)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(sbyte value)
         {
-            return new fp128((ulong) value, 0);
+            return new fp128((ulong)value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte(fp128 value)
         {
-            return (sbyte) value.m_hi;
+            return (sbyte)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(ushort value)
         {
             return new fp128(value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort(fp128 value)
         {
-            return (ushort) value.m_hi;
+            return (ushort)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(short value)
         {
-            return new fp128((ulong) value, 0);
+            return new fp128((ulong)value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short(fp128 value)
         {
-            return (short) value.m_hi;
+            return (short)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(uint value)
         {
             return new fp128(value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint(fp128 value)
         {
-            return (uint) value.m_hi;
+            return (uint)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(int value)
         {
-            return new fp128((ulong) value, 0);
+            return new fp128((ulong)value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int(fp128 value)
         {
-            return (int) value.m_hi;
+            return (int)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(ulong value)
         {
             return new fp128(value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong(fp128 value)
         {
             return value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(long value)
         {
-            return new fp128((ulong) value, 0);
+            return new fp128((ulong)value, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long(fp128 value)
         {
-            return (long) value.m_hi;
+            return (long)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(float value)
         {
-            return (double) value;
+            return (double)value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(fp128 value)
         {
-            return (float) (double) value;
+            return (float)(double)value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(double value)
         {
             if (value > MaxRaw)
@@ -133,12 +152,13 @@ namespace Fixed.Numeric
                 return MinValue;
             var sign = value < 0;
             if (sign) value = -value;
-            var hi = (ulong) value;
-            var lo = (ulong) ((value - (long) value) * P64Of2);
+            var hi = (ulong)value;
+            var lo = (ulong)((value - (long)value) * P64Of2);
             var fp = new fp128(hi, lo);
             return sign ? -fp : fp;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(fp128 value)
         {
             var sign = value.m_hi >> 63 == 1;
@@ -147,48 +167,57 @@ namespace Fixed.Numeric
             return sign ? -r : r;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp128(fp value)
         {
-            return new fp128((ulong) (int) (value.m_value >> 32), (ulong) (value.m_value & 0x00000000FFFFFFFF) << 32);
+            return new fp128((ulong)(int)(value.m_value >> 32), (ulong)(value.m_value & 0x00000000FFFFFFFF) << 32);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator fp(fp128 value)
         {
-            return new fp(((long) (int) value.m_hi << 32) + (long) (value.m_lo >> 32));
+            return new fp(((long)(int)value.m_hi << 32) + (long)(value.m_lo >> 32));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(fp128 left, fp128 right)
         {
             return left.m_hi == right.m_hi && left.m_lo == right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(fp128 left, fp128 right)
         {
             return left.m_hi != right.m_hi || left.m_lo != right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >(fp128 left, fp128 right)
         {
             return !(left <= right);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <(fp128 left, fp128 right)
         {
             return !(left >= right);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >=(fp128 left, fp128 right)
         {
-            return (long) left.m_hi > (long) right.m_hi ||
+            return (long)left.m_hi > (long)right.m_hi ||
                    left.m_hi == right.m_hi && left.m_lo >= right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <=(fp128 left, fp128 right)
         {
-            return (long) left.m_hi < (long) right.m_hi ||
+            return (long)left.m_hi < (long)right.m_hi ||
                    left.m_hi == right.m_hi && left.m_lo <= right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator <<(fp128 value, int shift)
         {
             var hi = value.m_hi;
@@ -208,6 +237,7 @@ namespace Fixed.Numeric
             return new fp128(hi, lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator >>(fp128 value, int shift)
         {
             var hi = value.m_hi;
@@ -215,38 +245,43 @@ namespace Fixed.Numeric
             shift &= 127;
             if (shift >= 64)
             {
-                lo = (ulong) ((long) hi >> shift - 64);
-                hi = (ulong) ((long) hi >> 63);
+                lo = (ulong)((long)hi >> shift - 64);
+                hi = (ulong)((long)hi >> 63);
             }
             else if (shift != 0)
             {
-                lo = (lo >> shift) | (ulong) ((long) hi << 64 - shift);
-                hi = (ulong) ((long) hi >> shift);
+                lo = (lo >> shift) | (ulong)((long)hi << 64 - shift);
+                hi = (ulong)((long)hi >> shift);
             }
 
             return new fp128(hi, lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator |(fp128 left, fp128 right)
         {
             return new fp128(left.m_hi | right.m_hi, left.m_lo | right.m_lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator &(fp128 left, fp128 right)
         {
             return new fp128(left.m_hi & right.m_hi, left.m_lo & right.m_lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator ^(fp128 left, fp128 right)
         {
             return new fp128(left.m_hi ^ right.m_hi, left.m_lo ^ right.m_lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator ~(fp128 value)
         {
             return new fp128(~value.m_hi, ~value.m_lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator +(fp128 left, fp128 right)
         {
             var r = left.m_lo + right.m_lo;
@@ -254,6 +289,7 @@ namespace Fixed.Numeric
             return new fp128(left.m_hi + right.m_hi + carry, r);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator -(fp128 left, fp128 right)
         {
             var r = left.m_lo - right.m_lo;
@@ -261,6 +297,7 @@ namespace Fixed.Numeric
             return new fp128(left.m_hi - right.m_hi - borrow, r);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator -(fp128 value)
         {
             var hi = value.m_hi;
@@ -270,6 +307,7 @@ namespace Fixed.Numeric
             return new fp128(hi, lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 operator *(fp128 left, fp128 right)
         {
             var sign1 = left.m_hi >> 63 == 1;
@@ -280,8 +318,7 @@ namespace Fixed.Numeric
             if (sign1 != sign2) ret = -ret;
             return ret;
         }
-        
-        [BurstDiscard]
+
         public static unsafe fp128 operator /(fp128 left, fp128 right)
         {
             if (right == 0)
@@ -290,7 +327,7 @@ namespace Fixed.Numeric
             if (sign1) left = -left;
             var sign2 = right.m_hi >> 63 == 1;
             if (sign2) right = -right;
-            var temp = (byte*) UnsafeUtility.Malloc(48, UnsafeUtility.AlignOf<byte>(), Allocator.Temp);
+            var temp = (byte*)UnsafeUtility.Malloc(48, UnsafeUtility.AlignOf<byte>(), Allocator.Temp);
             BitConverter.TryWriteBytes(new Span<byte>(temp, 8), left.m_lo);
             BitConverter.TryWriteBytes(new Span<byte>(temp + 8, 8), left.m_hi);
             BitConverter.TryWriteBytes(new Span<byte>(temp + 16, 8), right.m_lo);
@@ -318,17 +355,17 @@ namespace Fixed.Numeric
                 remainder <<= 1;
                 --bitPos;
             }
-        
+
             quotient = quotient + 1 >> 1;
             UnsafeUtility.MemClear(temp, 16);
             quotient.TryWriteBytes(new Span<byte>(temp, 16), out _);
-            var ret = new fp128(BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp + 8, 8)), 
+            var ret = new fp128(BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp + 8, 8)),
                 BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp, 8)));
             if (sign1 != sign2) ret = -ret;
             UnsafeUtility.Free(temp, Allocator.Temp);
             return ret;
         }
-        
+
         public static unsafe fp128 operator %(fp128 left, fp128 right)
         {
             if (right.m_hi == 0 && right.m_lo == 0)
@@ -337,7 +374,7 @@ namespace Fixed.Numeric
             if (sign1) left = -left;
             var sign2 = right.m_hi >> 63 == 1;
             if (sign2) right = -right;
-            var temp = (byte*) UnsafeUtility.Malloc(32, UnsafeUtility.AlignOf<byte>(), Allocator.Temp);
+            var temp = (byte*)UnsafeUtility.Malloc(32, UnsafeUtility.AlignOf<byte>(), Allocator.Temp);
             BitConverter.TryWriteBytes(new Span<byte>(temp, 8), left.m_lo);
             BitConverter.TryWriteBytes(new Span<byte>(temp + 8, 8), left.m_hi);
             BitConverter.TryWriteBytes(new Span<byte>(temp + 16, 8), right.m_lo);
@@ -345,7 +382,7 @@ namespace Fixed.Numeric
             var remainder = new BigInteger(new ReadOnlySpan<byte>(temp, 16)) % new BigInteger(new ReadOnlySpan<byte>(temp + 16, 16));
             UnsafeUtility.MemClear(temp, 16);
             remainder.TryWriteBytes(new Span<byte>(temp, 16), out _);
-            var ret = new fp128(BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp + 8, 8)), 
+            var ret = new fp128(BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp + 8, 8)),
                 BitConverter.ToUInt64(new ReadOnlySpan<byte>(temp, 8)));
             UnsafeUtility.Free(temp, Allocator.Temp);
             if (sign1) ret = -ret;
@@ -356,19 +393,19 @@ namespace Fixed.Numeric
         {
             if (value is not fp128)
                 throw new ArgumentException("Value is not an instance of fp128.");
-            return CompareTo((fp128) value);
+            return CompareTo((fp128)value);
         }
 
         public override string ToString()
         {
-            return $"{(double) this}";
+            return $"{(double)this}";
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return string.IsNullOrEmpty(format)
                 ? ToString(formatProvider)
-                : string.Format(formatProvider, format, (double) this);
+                : string.Format(formatProvider, format, (double)this);
         }
 
         public TypeCode GetTypeCode()
@@ -383,57 +420,57 @@ namespace Fixed.Numeric
 
         public byte ToByte(IFormatProvider provider)
         {
-            return (byte) this;
+            return (byte)this;
         }
 
         public char ToChar(IFormatProvider provider)
         {
-            return Convert.ToChar((float) this, provider);
+            return Convert.ToChar((float)this, provider);
         }
 
         public DateTime ToDateTime(IFormatProvider provider)
         {
-            return Convert.ToDateTime((float) this, provider);
+            return Convert.ToDateTime((float)this, provider);
         }
 
         public decimal ToDecimal(IFormatProvider provider)
         {
-            return Convert.ToDecimal((float) this, provider);
+            return Convert.ToDecimal((float)this, provider);
         }
 
         public double ToDouble(IFormatProvider provider)
         {
-            return (double) this;
+            return (double)this;
         }
 
         public short ToInt16(IFormatProvider provider)
         {
-            return (short) this;
+            return (short)this;
         }
 
         public int ToInt32(IFormatProvider provider)
         {
-            return (int) this;
+            return (int)this;
         }
 
         public long ToInt64(IFormatProvider provider)
         {
-            return (long) this;
+            return (long)this;
         }
 
         public sbyte ToSByte(IFormatProvider provider)
         {
-            return (sbyte) this;
+            return (sbyte)this;
         }
 
         public float ToSingle(IFormatProvider provider)
         {
-            return (float) this;
+            return (float)this;
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return string.Format(provider, "{0}", (double) this);
+            return string.Format(provider, "{0}", (double)this);
         }
 
         public object ToType(Type conversionType, IFormatProvider provider)
@@ -443,17 +480,17 @@ namespace Fixed.Numeric
 
         public ushort ToUInt16(IFormatProvider provider)
         {
-            return (ushort) this;
+            return (ushort)this;
         }
 
         public uint ToUInt32(IFormatProvider provider)
         {
-            return (uint) this;
+            return (uint)this;
         }
 
         public ulong ToUInt64(IFormatProvider provider)
         {
-            return (ulong) this;
+            return (ulong)this;
         }
 
         public int CompareTo(fp128 other)

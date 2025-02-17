@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Fixed.Numeric
 {
@@ -45,11 +46,13 @@ namespace Fixed.Numeric
 
         public fp area => width * height;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Overlaps(in fprect c)
         {
             return !(max.x < c.min.x || min.x > c.max.x || max.y < c.min.y || min.y > c.max.y);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Contains(in fprect c)
         {
             return min.x <= c.min.x && min.y <= c.min.y && max.x >= c.max.x && max.y >= c.max.y;
@@ -73,16 +76,19 @@ namespace Fixed.Numeric
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(in fprect a, in fprect b)
         {
             return a.min == b.min && a.max == b.max;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(in fprect a, in fprect b)
         {
             return !(a == b);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fprect Union(in fprect a, in fprect b)
         {
             fprect rect;
@@ -91,6 +97,7 @@ namespace Fixed.Numeric
             return rect;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe fprect Union(fpvec2* points, int length)
         {
             var rect = new fprect

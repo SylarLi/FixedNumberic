@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Fixed.Numeric
 {
@@ -32,26 +33,31 @@ namespace Fixed.Numeric
         private static readonly fp192 RcpPIDiv180 = new fp192(57, 5456168980075999426, 11949421796649203136); // 180/PI
         private static readonly fp192 PIDiv180 = new fp192(0, 321956420358983237, 8103717027302354470); // PI/180
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Abs(fp128 x)
         {
             return x < fp128.Zero ? -x : x;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Floor(fp128 x)
         {
             return new fp128(x.m_hi, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Ceiling(fp128 x)
         {
             return Floor(x + CFM);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Round(fp128 x)
         {
             return Floor(x + (fp128.One >> 1));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Sign(fp128 x)
         {
             if (x > fp128.Zero)
@@ -61,16 +67,19 @@ namespace Fixed.Numeric
             return fp128.Zero;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Max(fp128 x, fp128 y)
         {
             return x > y ? x : y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Min(fp128 x, fp128 y)
         {
             return x < y ? x : y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Clamp(fp128 x, fp128 min, fp128 max)
         {
             x = x < min ? min : x;
@@ -78,6 +87,7 @@ namespace Fixed.Numeric
             return x;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Clamp01(fp128 x)
         {
             x = x < fp128.Zero ? fp128.Zero : x;
@@ -85,111 +95,133 @@ namespace Fixed.Numeric
             return x;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Lerp(fp128 x, fp128 y, fp128 t)
         {
             return x + (y - x) * t;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 RadToDeg(fp128 radian)
         {
             return (fp128)(radian * RcpPIDiv180);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 DegToRad(fp128 degree)
         {
             return (fp128)(degree * PIDiv180);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Rcp(fp128 x)
         {
             return (fp128)Rcp((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Sqrt(fp128 x)
         {
             return (fp128)Sqrt((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 RSqrt(fp128 x)
         {
             return (fp128)RSqrt((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Exp2(fp128 x)
         {
             return (fp128)Exp2((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Exp(fp128 x)
         {
             return (fp128)Exp2(Log2E * x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Exp10(fp128 x)
         {
             return (fp128)Exp2(Log2E10 * x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Pow(fp128 x, fp128 exponent)
         {
             return (fp128)Pow((fp192)x, exponent);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Log2(fp128 x)
         {
             return (fp128)Log2((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Log(fp128 x)
         {
             return (fp128)(LN2 * Log2((fp192)x));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Log10(fp128 x)
         {
             return (fp128)(Log10E2 * Log2((fp192)x));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Log(fp128 x, fp128 newBase)
         {
             return (fp128)Log((fp192)x, newBase);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Sin(fp128 x)
         {
             return (fp128)Sin((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Cos(fp128 x)
         {
             return (fp128)Cos((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Tan(fp128 x)
         {
             return (fp128)Tan((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Atan2(fp128 y, fp128 x)
         {
             return (fp128)Atan2(y, (fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Atan(fp128 x)
         {
             return (fp128)Atan2(x, fp192.One);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Asin(fp128 x)
         {
             return (fp128)Asin((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp128 Acos(fp128 x)
         {
             return (fp128)Acos((fp192)x);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Rcp(fp192 x)
         {
             if (x == fp192.Zero)
@@ -203,6 +235,7 @@ namespace Fixed.Numeric
             return offset >= 0 ? y >> offset : y << -offset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Sqrt(fp192 x)
         {
             if (x < fp192.Zero)
@@ -218,6 +251,7 @@ namespace Fixed.Numeric
             return offset >= 0 ? y << offset : y >> -offset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 RSqrt(fp192 x)
         {
             if (x <= fp192.Zero)
@@ -231,6 +265,7 @@ namespace Fixed.Numeric
             return offset >= 0 ? y >> offset : y << -offset;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Exp2(fp192 x)
         {
             if (x >= 63)
@@ -242,6 +277,7 @@ namespace Fixed.Numeric
             return xi >= 0 ? ret << xi : ret >> -xi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Pow(fp192 x, fp192 exponent)
         {
             if (x <= fp192.Zero)
@@ -251,6 +287,7 @@ namespace Fixed.Numeric
             return Exp2(exponent * Log2(x));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Log2(fp192 x)
         {
             if (x <= fp192.Zero)
@@ -264,6 +301,7 @@ namespace Fixed.Numeric
             return offset + y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Log2R(fp192 x)
         {
             var y = fp192.Zero;
@@ -291,6 +329,7 @@ namespace Fixed.Numeric
             return y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Log(fp192 x, fp192 newBase)
         {
             if (x <= fp192.Zero || newBase <= fp192.Zero || newBase == fp192.One)
@@ -298,6 +337,7 @@ namespace Fixed.Numeric
             return Log2(x) * Rcp(Log2(newBase));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Sin(fp192 x)
         {
             var sign = x < fp192.Zero;
@@ -316,11 +356,13 @@ namespace Fixed.Numeric
             return sign ? -y : y;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Cos(fp192 x)
         {
             return Sin(x + HalfPI);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Tan(fp192 x)
         {
             var sinx = Sin(x);
@@ -332,6 +374,7 @@ namespace Fixed.Numeric
             return sinx * Rcp(cosx);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Atan2(fp192 y, fp192 x)
         {
             if (y == fp192.Zero)
@@ -360,6 +403,7 @@ namespace Fixed.Numeric
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Asin(fp192 x)
         {
             if (x < -fp192.One || x > fp192.One)
@@ -367,6 +411,7 @@ namespace Fixed.Numeric
             return Atan2(x, Sqrt((fp192.One + x) * (fp192.One - x)));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static fp192 Acos(fp192 x)
         {
             if (x < -fp192.One || x > fp192.One)

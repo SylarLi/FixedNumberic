@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Unity.Burst;
 
 namespace Fixed.Numeric
 {
@@ -26,9 +27,9 @@ namespace Fixed.Numeric
             this.y = y;
         }
 
-        public fp sqrMagnitude => (fp) ((fp128) x * x + (fp128) y * y);
+        public fp sqrMagnitude => (fp)((fp128)x * x + (fp128)y * y);
 
-        public fp magnitude => (fp) fp128math.Sqrt((fp128) x * x + (fp128) y * y);
+        public fp magnitude => (fp)fp128math.Sqrt((fp128)x * x + (fp128)y * y);
 
         public fpvec2 normalized
         {
@@ -43,12 +44,12 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
-            var sqr = (fp128) x * x + (fp128) y * y;
+            var sqr = (fp128)x * x + (fp128)y * y;
             if (sqr > fp128math.SqrEpsilon)
             {
                 var value = fp128math.RSqrt(sqr);
-                x = (fp) (x * value);
-                y = (fp) (y * value);
+                x = (fp)(x * value);
+                y = (fp)(y * value);
             }
             else
             {
@@ -178,15 +179,15 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp Angle(fpvec2 from, fpvec2 to)
         {
-            var value = ((fp128) from.x * from.x + (fp128) from.y * from.y) *
-                        ((fp128) to.x * to.x + (fp128) to.y * to.y);
+            var value = ((fp128)from.x * from.x + (fp128)from.y * from.y) *
+                        ((fp128)to.x * to.x + (fp128)to.y * to.y);
             if (value <= fp128math.SqrEpsilon)
                 return fp.Zero;
             value = fp128math.RSqrt(value);
-            value *= (fp128) from.x * to.x + (fp128) from.y * to.y;
+            value *= (fp128)from.x * to.x + (fp128)from.y * to.y;
             value = fp128math.Clamp(value, -fp128.One, fp128.One);
             value = fp128math.Acos(value);
-            return (fp) fp128math.RadToDeg(value);
+            return (fp)fp128math.RadToDeg(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -198,14 +199,14 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fpvec2 ClampMagnitude(fpvec2 vector, fp maxLength)
         {
-            var sqrMaxLength = (fp128) maxLength * maxLength;
-            var sqrMagnitude = (fp128) vector.x * vector.x + (fp128) vector.y * vector.y;
+            var sqrMaxLength = (fp128)maxLength * maxLength;
+            var sqrMagnitude = (fp128)vector.x * vector.x + (fp128)vector.y * vector.y;
             if (sqrMagnitude <= sqrMaxLength)
                 return vector;
             if (sqrMagnitude <= fp128math.SqrEpsilon)
                 return zero;
             var value = fp128math.RSqrt(sqrMagnitude) * maxLength;
-            return new fpvec2((fp) (vector.x * value), (fp) (vector.y * value));
+            return new fpvec2((fp)(vector.x * value), (fp)(vector.y * value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -217,13 +218,13 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp Dot(fpvec2 lhs, fpvec2 rhs)
         {
-            return (fp) ((fp128) lhs.x * rhs.x + (fp128) lhs.y * rhs.y);
+            return (fp)((fp128)lhs.x * rhs.x + (fp128)lhs.y * rhs.y);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp Cross(fpvec2 lhs, fpvec2 rhs)
         {
-            return (fp) ((fp128) lhs.x * rhs.y - (fp128) lhs.y * rhs.x);
+            return (fp)((fp128)lhs.x * rhs.y - (fp128)lhs.y * rhs.x);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -255,11 +256,11 @@ namespace Fixed.Numeric
         public static fpvec2 MoveTowards(fpvec2 current, fpvec2 target, fp maxDistanceDelta)
         {
             var diff = target - current;
-            var magnitude = fp128math.Sqrt((fp128) diff.x * diff.x + (fp128) diff.y * diff.y);
+            var magnitude = fp128math.Sqrt((fp128)diff.x * diff.x + (fp128)diff.y * diff.y);
             if (magnitude <= maxDistanceDelta || magnitude <= fp128math.Epsilon)
                 return target;
             var value = fp128math.Rcp(magnitude) * maxDistanceDelta;
-            return new fpvec2((fp) (current.x + diff.x * value), (fp) (current.y + diff.y * value));
+            return new fpvec2((fp)(current.x + diff.x * value), (fp)(current.y + diff.y * value));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -271,9 +272,9 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fpvec2 Reflect(fpvec2 inDirection, fpvec2 inNormal)
         {
-            var dot = (fp128) inNormal.x * inDirection.x + (fp128) inNormal.y * inDirection.y;
+            var dot = (fp128)inNormal.x * inDirection.x + (fp128)inNormal.y * inDirection.y;
             dot = -(dot << 1);
-            return new fpvec2((fp) (dot * inNormal.x + inDirection.x), (fp) (dot * inNormal.y + inDirection.y));
+            return new fpvec2((fp)(dot * inNormal.x + inDirection.x), (fp)(dot * inNormal.y + inDirection.y));
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -285,12 +286,12 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fpvec2 Project(fpvec2 vector, fpvec2 on)
         {
-            var value = (fp128) on.x * on.x + (fp128) on.y * on.y;
+            var value = (fp128)on.x * on.x + (fp128)on.y * on.y;
             if (value <= fp128math.SqrEpsilon)
                 return zero;
             value = fp128math.Rcp(value);
-            value *= (fp128) vector.x * on.x + (fp128) vector.y * on.y;
-            return new fpvec2((fp) (value * on.x), (fp) (value * on.y));
+            value *= (fp128)vector.x * on.x + (fp128)vector.y * on.y;
+            return new fpvec2((fp)(value * on.x), (fp)(value * on.y));
         }
     }
 }

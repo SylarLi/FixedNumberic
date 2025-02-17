@@ -35,96 +35,115 @@ namespace Fixed.Numeric
             m_oo = oo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(byte value)
         {
             return new fp192(value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator byte(fp192 value)
         {
-            return (byte) value.m_hi;
+            return (byte)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(sbyte value)
         {
-            return new fp192((ulong) value, 0, 0);
+            return new fp192((ulong)value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator sbyte(fp192 value)
         {
-            return (sbyte) value.m_hi;
+            return (sbyte)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(ushort value)
         {
             return new fp192(value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ushort(fp192 value)
         {
-            return (ushort) value.m_hi;
+            return (ushort)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(short value)
         {
-            return new fp192((ulong) value, 0, 0);
+            return new fp192((ulong)value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator short(fp192 value)
         {
-            return (short) value.m_hi;
+            return (short)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(uint value)
         {
             return new fp192(value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator uint(fp192 value)
         {
-            return (uint) value.m_hi;
+            return (uint)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(int value)
         {
-            return new fp192((ulong) value, 0, 0);
+            return new fp192((ulong)value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator int(fp192 value)
         {
-            return (int) value.m_hi;
+            return (int)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(ulong value)
         {
             return new fp192(value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator ulong(fp192 value)
         {
             return value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator fp192(long value)
         {
-            return new fp192((ulong) value, 0, 0);
+            return new fp192((ulong)value, 0, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator long(fp192 value)
         {
-            return (long) value.m_hi;
+            return (long)value.m_hi;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator fp192(float value)
         {
-            return (double) value;
+            return (double)value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator float(fp192 value)
         {
-            return (float) (double) value;
+            return (float)(double)value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(double value)
         {
             if (value > MaxRaw)
@@ -133,14 +152,15 @@ namespace Fixed.Numeric
                 return MinValue;
             var sign = value < 0;
             if (sign) value = -value;
-            var hi = (ulong) value;
-            var ff = (value - (long) value) * P64Of2;
-            var lo = (ulong) ff;
-            var oo = (ulong) ((ff - lo) * P64Of2);
+            var hi = (ulong)value;
+            var ff = (value - (long)value) * P64Of2;
+            var lo = (ulong)ff;
+            var oo = (ulong)((ff - lo) * P64Of2);
             var fp = new fp192(hi, lo, oo);
             return sign ? -fp : fp;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator double(fp192 value)
         {
             var sign = value.m_hi >> 63 == 1;
@@ -149,59 +169,70 @@ namespace Fixed.Numeric
             return sign ? -r : r;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(fp value)
         {
-            return new fp192((ulong) (int) (value.m_value >> 32), (ulong) (value.m_value & 0x00000000FFFFFFFF) << 32,
+            return new fp192((ulong)(int)(value.m_value >> 32), (ulong)(value.m_value & 0x00000000FFFFFFFF) << 32,
                 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator fp(fp192 value)
         {
-            return new fp(((long) (int) value.m_hi << 32) + (long) (value.m_lo >> 32));
+            return new fp(((long)(int)value.m_hi << 32) + (long)(value.m_lo >> 32));
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator fp192(fp128 value)
         {
             return new fp192(value.m_hi, value.m_lo, 0);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator fp128(fp192 value)
         {
             return new fp128(value.m_hi, value.m_lo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(fp192 left, fp192 right)
         {
             return left.m_hi == right.m_hi && left.m_lo == right.m_lo && left.m_oo == right.m_oo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(fp192 left, fp192 right)
         {
             return !(left == right);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >(fp192 left, fp192 right)
         {
             return !(left <= right);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <(fp192 left, fp192 right)
         {
             return !(left >= right);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator >=(fp192 left, fp192 right)
         {
-            return (long) left.m_hi > (long) right.m_hi ||
+            return (long)left.m_hi > (long)right.m_hi ||
                    left.m_hi == right.m_hi && left.m_lo >= right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator <=(fp192 left, fp192 right)
         {
-            return (long) left.m_hi < (long) right.m_hi ||
+            return (long)left.m_hi < (long)right.m_hi ||
                    left.m_hi == right.m_hi && left.m_lo <= right.m_lo;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator <<(fp192 value, int shift)
         {
             var hi = value.m_hi;
@@ -233,6 +264,7 @@ namespace Fixed.Numeric
             return new fp192(hi, lo, oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator >>(fp192 value, int shift)
         {
             var hi = value.m_hi;
@@ -241,49 +273,54 @@ namespace Fixed.Numeric
             shift &= 191;
             if (shift >= 128)
             {
-                oo = (ulong) ((long) hi >> shift - 128);
+                oo = (ulong)((long)hi >> shift - 128);
                 lo = 0;
-                hi = (ulong) ((long) hi >> 63);
+                hi = (ulong)((long)hi >> 63);
             }
             else if (shift >= 64)
             {
                 oo = lo >> shift - 64;
-                oo |= (ulong) ((long) hi << 128 - shift);
-                lo = (ulong) ((long) hi >> shift - 64);
-                hi = (ulong) ((long) hi >> 63);
+                oo |= (ulong)((long)hi << 128 - shift);
+                lo = (ulong)((long)hi >> shift - 64);
+                hi = (ulong)((long)hi >> 63);
             }
             else if (shift != 0)
             {
                 oo >>= shift;
                 oo |= lo << 64 - shift;
                 lo >>= shift;
-                lo |= (ulong) ((long) hi << 64 - shift);
-                hi = (ulong) ((long) hi >> shift);
+                lo |= (ulong)((long)hi << 64 - shift);
+                hi = (ulong)((long)hi >> shift);
             }
 
             return new fp192(hi, lo, oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator |(fp192 left, fp192 right)
         {
             return new fp192(left.m_hi | right.m_hi, left.m_lo | right.m_lo, left.m_oo | right.m_oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator &(fp192 left, fp192 right)
         {
             return new fp192(left.m_hi & right.m_hi, left.m_lo & right.m_lo, left.m_oo & right.m_oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator ^(fp192 left, fp192 right)
         {
             return new fp192(left.m_hi ^ right.m_hi, left.m_lo ^ right.m_lo, left.m_oo ^ right.m_oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator ~(fp192 value)
         {
             return new fp192(~value.m_hi, ~value.m_lo, ~value.m_oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator +(fp192 left, fp192 right)
         {
             ulong hi = left.m_hi, lo = left.m_lo, oo = left.m_oo;
@@ -297,6 +334,7 @@ namespace Fixed.Numeric
             return new fp192(hi, lo, oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator -(fp192 left, fp192 right)
         {
             ulong hi = left.m_hi, lo = left.m_lo, oo = left.m_oo;
@@ -314,6 +352,7 @@ namespace Fixed.Numeric
             return new fp192(hi, lo, oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator -(fp192 value)
         {
             var hi = value.m_hi;
@@ -338,6 +377,7 @@ namespace Fixed.Numeric
             return new fp192(hi, lo, oo);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp192 operator *(fp192 left, fp192 right)
         {
             var sign1 = left.m_hi >> 63 == 1;
@@ -354,19 +394,19 @@ namespace Fixed.Numeric
                 return 1;
             if (!(value is fp192))
                 throw new ArgumentException("Value is not an instance of fp192.");
-            return CompareTo((fp192) value);
+            return CompareTo((fp192)value);
         }
 
         public override string ToString()
         {
-            return $"{(double) this}";
+            return $"{(double)this}";
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return string.IsNullOrEmpty(format)
                 ? ToString(formatProvider)
-                : string.Format(formatProvider, format, (double) this);
+                : string.Format(formatProvider, format, (double)this);
         }
 
         public TypeCode GetTypeCode()
@@ -381,57 +421,57 @@ namespace Fixed.Numeric
 
         public byte ToByte(IFormatProvider provider)
         {
-            return (byte) this;
+            return (byte)this;
         }
 
         public char ToChar(IFormatProvider provider)
         {
-            return Convert.ToChar((float) this, provider);
+            return Convert.ToChar((float)this, provider);
         }
 
         public DateTime ToDateTime(IFormatProvider provider)
         {
-            return Convert.ToDateTime((float) this, provider);
+            return Convert.ToDateTime((float)this, provider);
         }
 
         public decimal ToDecimal(IFormatProvider provider)
         {
-            return Convert.ToDecimal((float) this, provider);
+            return Convert.ToDecimal((float)this, provider);
         }
 
         public double ToDouble(IFormatProvider provider)
         {
-            return (double) this;
+            return (double)this;
         }
 
         public short ToInt16(IFormatProvider provider)
         {
-            return (short) this;
+            return (short)this;
         }
 
         public int ToInt32(IFormatProvider provider)
         {
-            return (int) this;
+            return (int)this;
         }
 
         public long ToInt64(IFormatProvider provider)
         {
-            return (long) this;
+            return (long)this;
         }
 
         public sbyte ToSByte(IFormatProvider provider)
         {
-            return (sbyte) this;
+            return (sbyte)this;
         }
 
         public float ToSingle(IFormatProvider provider)
         {
-            return (float) this;
+            return (float)this;
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return string.Format(provider, "{0}", (double) this);
+            return string.Format(provider, "{0}", (double)this);
         }
 
         public object ToType(Type conversionType, IFormatProvider provider)
@@ -441,17 +481,17 @@ namespace Fixed.Numeric
 
         public ushort ToUInt16(IFormatProvider provider)
         {
-            return (ushort) this;
+            return (ushort)this;
         }
 
         public uint ToUInt32(IFormatProvider provider)
         {
-            return (uint) this;
+            return (uint)this;
         }
 
         public ulong ToUInt64(IFormatProvider provider)
         {
-            return (ulong) this;
+            return (ulong)this;
         }
 
         public int CompareTo(fp192 other)

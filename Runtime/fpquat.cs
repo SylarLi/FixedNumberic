@@ -69,11 +69,13 @@ namespace Fixed.Numeric
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetLookRotation(fpvec3 forward, fpvec3 upwards)
         {
             this = LookRotation(forward, upwards);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void SetFromToRotation(fpvec3 fromDirection, fpvec3 toDirection)
         {
             this = FromToRotation(fromDirection, toDirection);
@@ -341,22 +343,6 @@ namespace Fixed.Numeric
             qy *= qq;
             qz *= qq;
             qw *= qq;
-            return new fpquat((fp)qx, (fp)qy, (fp)qz, (fp)qw);
-        }
-
-        public static fpquat SUDouble(fpquat a, fpquat b, fp t)
-        {
-            var dot = (fp128)a.x * b.x + (fp128)a.y * b.y + (fp128)a.z * b.z + (fp128)a.w * b.w;
-            var o = Mathf.Acos((float)dot);
-            var so = Mathf.Sin((float)o);
-            var rso = 1 / so;
-            var to = (float)(o * t);
-            var t1 = Mathf.Sin(o - to);
-            var t2 = Mathf.Sin(to);
-            var qx = rso * (t1 * a.x + t2 * b.x);
-            var qy = rso * (t1 * a.y + t2 * b.y);
-            var qz = rso * (t1 * a.z + t2 * b.z);
-            var qw = rso * (t1 * a.w + t2 * b.w);
             return new fpquat((fp)qx, (fp)qy, (fp)qz, (fp)qw);
         }
 
