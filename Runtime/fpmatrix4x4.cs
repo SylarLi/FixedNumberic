@@ -86,7 +86,7 @@ namespace Fixed.Numeric
         {
             if (!(other is fpmatrix4x4))
                 return false;
-            return Equals((fpmatrix4x4) other);
+            return Equals((fpmatrix4x4)other);
         }
 
         public bool Equals(fpmatrix4x4 other)
@@ -125,9 +125,9 @@ namespace Fixed.Numeric
             {
                 // This may not be consistent with unity's implementation.(don't know why -_-#)
                 fpquat q;
-                var sx = (fp128) m00 * m00 + (fp128) m10 * m10 + (fp128) m20 * m20;
-                var sy = (fp128) m01 * m01 + (fp128) m11 * m11 + (fp128) m21 * m21;
-                var sz = (fp128) m02 * m02 + (fp128) m12 * m12 + (fp128) m22 * m22;
+                var sx = (fp128)m00 * m00 + (fp128)m10 * m10 + (fp128)m20 * m20;
+                var sy = (fp128)m01 * m01 + (fp128)m11 * m11 + (fp128)m21 * m21;
+                var sz = (fp128)m02 * m02 + (fp128)m12 * m12 + (fp128)m22 * m22;
                 var inv_sx = fp128math.RSqrt(sx);
                 inv_sx = determinant < fp128.Zero ? -inv_sx : inv_sx;
                 var inv_sy = fp128math.RSqrt(sy);
@@ -146,37 +146,37 @@ namespace Fixed.Numeric
                 {
                     var s = fp128math.Sqrt(fp128.One + tr);
                     var rs = fp128math.Rcp(s << 1);
-                    q.w = (fp) (s >> 1);
-                    q.x = (fp) ((mm21 - mm12) * rs);
-                    q.y = (fp) ((mm02 - mm20) * rs);
-                    q.z = (fp) ((mm10 - mm01) * rs);
+                    q.w = (fp)(s >> 1);
+                    q.x = (fp)((mm21 - mm12) * rs);
+                    q.y = (fp)((mm02 - mm20) * rs);
+                    q.z = (fp)((mm10 - mm01) * rs);
                 }
                 else if (mm00 > mm11 && mm00 > mm22)
                 {
                     var s = fp128math.Sqrt(fp128.One + mm00 - mm11 - mm22);
                     var rs = fp128math.Rcp(s << 1);
-                    q.w = (fp) ((mm21 - mm12) * rs);
-                    q.x = (fp) (s >> 1);
-                    q.y = (fp) ((mm01 + mm10) * rs);
-                    q.z = (fp) ((mm02 + mm20) * rs);
+                    q.w = (fp)((mm21 - mm12) * rs);
+                    q.x = (fp)(s >> 1);
+                    q.y = (fp)((mm01 + mm10) * rs);
+                    q.z = (fp)((mm02 + mm20) * rs);
                 }
                 else if (mm11 > mm22)
                 {
                     var s = fp128math.Sqrt(fp128.One + mm11 - mm00 - mm22);
                     var rs = fp128math.Rcp(s << 1);
-                    q.w = (fp) ((mm02 - mm20) * rs);
-                    q.x = (fp) ((mm01 + mm10) * rs);
-                    q.y = (fp) (s >> 1);
-                    q.z = (fp) ((mm12 + mm21) * rs);
+                    q.w = (fp)((mm02 - mm20) * rs);
+                    q.x = (fp)((mm01 + mm10) * rs);
+                    q.y = (fp)(s >> 1);
+                    q.z = (fp)((mm12 + mm21) * rs);
                 }
                 else
                 {
                     var s = fp128math.Sqrt(fp128.One + mm22 - mm00 - mm11);
                     var rs = fp128math.Rcp(s << 1);
-                    q.w = (fp) ((mm10 - mm01) * rs);
-                    q.x = (fp) ((mm02 + mm20) * rs);
-                    q.y = (fp) ((mm12 + mm21) * rs);
-                    q.z = (fp) (s >> 1);
+                    q.w = (fp)((mm10 - mm01) * rs);
+                    q.x = (fp)((mm02 + mm20) * rs);
+                    q.y = (fp)((mm12 + mm21) * rs);
+                    q.z = (fp)(s >> 1);
                 }
 
                 return q;
@@ -199,22 +199,11 @@ namespace Fixed.Numeric
 
         public bool isIdentity => this == identity;
 
-        public fp determinant => (fp) ((fp128) m03 * m12 * m21 * m30 - (fp128) m02 * m13 * m21 * m30 -
-                                       (fp128) m03 * m11 * m22 * m30 +
-                                       (fp128) m01 * m13 * m22 * m30 + (fp128) m02 * m11 * m23 * m30 -
-                                       (fp128) m01 * m12 * m23 * m30 -
-                                       (fp128) m03 * m12 * m20 * m31 + (fp128) m02 * m13 * m20 * m31 +
-                                       (fp128) m03 * m10 * m22 * m31 -
-                                       (fp128) m00 * m13 * m22 * m31 - (fp128) m02 * m10 * m23 * m31 +
-                                       (fp128) m00 * m12 * m23 * m31 +
-                                       (fp128) m03 * m11 * m20 * m32 - (fp128) m01 * m13 * m20 * m32 -
-                                       (fp128) m03 * m10 * m21 * m32 +
-                                       (fp128) m00 * m13 * m21 * m32 + (fp128) m01 * m10 * m23 * m32 -
-                                       (fp128) m00 * m11 * m23 * m32 -
-                                       (fp128) m02 * m11 * m20 * m33 + (fp128) m01 * m12 * m20 * m33 +
-                                       (fp128) m02 * m10 * m21 * m33 -
-                                       (fp128) m00 * m12 * m21 * m33 - (fp128) m01 * m10 * m22 * m33 +
-                                       (fp128) m00 * m11 * m22 * m33);
+        public fp determinant =>
+                (fp)(m00 * ((fp128)m11 * (m22 * m33 - m23 * m32) - (fp128)m12 * (m21 * m33 - m23 * m31) + (fp128)m13 * (m21 * m32 - m22 * m31)) -
+                m01 * ((fp128)m10 * (m22 * m33 - m23 * m32) - (fp128)m12 * (m20 * m33 - m23 * m30) + (fp128)m13 * (m20 * m32 - m22 * m30)) +
+                m02 * ((fp128)m10 * (m21 * m33 - m23 * m31) - (fp128)m11 * (m20 * m33 - m23 * m30) + (fp128)m13 * (m20 * m31 - m21 * m30)) -
+                m03 * ((fp128)m10 * (m21 * m32 - m22 * m31) - (fp128)m11 * (m20 * m32 - m22 * m30) + (fp128)m12 * (m20 * m31 - m21 * m30)));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fp Determinant(fpmatrix4x4 m)
@@ -257,50 +246,63 @@ namespace Fixed.Numeric
         {
             get
             {
-                var num1 = (fp128) m22 * m33 - (fp128) m23 * m32;
-                var num2 = (fp128) m21 * m33 - (fp128) m23 * m31;
-                var num3 = (fp128) m21 * m32 - (fp128) m22 * m31;
-                var num4 = (fp128) m20 * m33 - (fp128) m23 * m30;
-                var num5 = (fp128) m20 * m32 - (fp128) m22 * m30;
-                var num6 = (fp128) m20 * m31 - (fp128) m21 * m30;
-                var num7 = m11 * num1 - m12 * num2 + m13 * num3;
-                var num8 = -(m10 * num1 - m12 * num4 + m13 * num5);
-                var num9 = m10 * num2 - m11 * num4 + m13 * num6;
-                var num10 = -(m10 * num3 - m11 * num5 + m12 * num6);
-                var num11 = m00 * num7 + m01 * num8 + m02 * num9 + m03 * num10;
-                if (fp128math.Abs(num11) <= fp128math.Epsilon)
-                    return zero;
-                var num12 = fp128math.Rcp(num11);
-                fpmatrix4x4 ret;
-                ret.m00 = (fp) (num7 * num12);
-                ret.m10 = (fp) (num8 * num12);
-                ret.m20 = (fp) (num9 * num12);
-                ret.m30 = (fp) (num10 * num12);
-                ret.m01 = (fp) (-(m01 * num1 - m02 * num2 + m03 * num3) * num12);
-                ret.m11 = (fp) ((m00 * num1 - m02 * num4 + m03 * num5) * num12);
-                ret.m21 = (fp) (-(m00 * num2 - m01 * num4 + m03 * num6) * num12);
-                ret.m31 = (fp) ((m00 * num3 - m01 * num5 + m02 * num6) * num12);
-                var num13 = (fp128) m12 * m33 - (fp128) m13 * m32;
-                var num14 = (fp128) m11 * m33 - (fp128) m13 * m31;
-                var num15 = (fp128) m11 * m32 - (fp128) m12 * m31;
-                var num16 = (fp128) m10 * m33 - (fp128) m13 * m30;
-                var num17 = (fp128) m10 * m32 - (fp128) m12 * m30;
-                var num18 = (fp128) m10 * m31 - (fp128) m11 * m30;
-                ret.m02 = (fp) ((m01 * num13 - m02 * num14 + m03 * num15) * num12);
-                ret.m12 = (fp) (-(m00 * num13 - m02 * num16 + m03 * num17) * num12);
-                ret.m22 = (fp) ((m00 * num14 - m01 * num16 + m03 * num18) * num12);
-                ret.m32 = (fp) (-(m00 * num15 - m01 * num17 + m02 * num18) * num12);
-                var num19 = (fp128) m12 * m23 - (fp128) m13 * m22;
-                var num20 = (fp128) m11 * m23 - (fp128) m13 * m21;
-                var num21 = (fp128) m11 * m22 - (fp128) m12 * m21;
-                var num22 = (fp128) m10 * m23 - (fp128) m13 * m20;
-                var num23 = (fp128) m10 * m22 - (fp128) m12 * m20;
-                var num24 = (fp128) m10 * m21 - (fp128) m11 * m20;
-                ret.m03 = (fp) (-(m01 * num19 - m02 * num20 + m03 * num21) * num12);
-                ret.m13 = (fp) ((m00 * num19 - m02 * num22 + m03 * num23) * num12);
-                ret.m23 = (fp) (-(m00 * num20 - m01 * num22 + m03 * num24) * num12);
-                ret.m33 = (fp) ((m00 * num21 - m01 * num23 + m02 * num24) * num12);
-                return ret;
+                var det2x2_20_31 = (fp128)m20 * m31 - (fp128)m21 * m30;
+                var det2x2_20_32 = (fp128)m20 * m32 - (fp128)m22 * m30;
+                var det2x2_20_33 = (fp128)m20 * m33 - (fp128)m23 * m30;
+                var det2x2_21_32 = (fp128)m21 * m32 - (fp128)m22 * m31;
+                var det2x2_21_33 = (fp128)m21 * m33 - (fp128)m23 * m31;
+                var det2x2_22_33 = (fp128)m22 * m33 - (fp128)m23 * m32;
+                var det2x2_10_21 = (fp128)m10 * m21 - (fp128)m11 * m20;
+                var det2x2_10_22 = (fp128)m10 * m22 - (fp128)m12 * m20;
+                var det2x2_10_23 = (fp128)m10 * m23 - (fp128)m13 * m20;
+                var det2x2_11_22 = (fp128)m11 * m22 - (fp128)m12 * m21;
+                var det2x2_11_23 = (fp128)m11 * m23 - (fp128)m13 * m21;
+                var det2x2_12_23 = (fp128)m12 * m23 - (fp128)m13 * m22;
+                var det2x2_10_31 = (fp128)m10 * m31 - (fp128)m11 * m30;
+                var det2x2_10_32 = (fp128)m10 * m32 - (fp128)m12 * m30;
+                var det2x2_10_33 = (fp128)m10 * m33 - (fp128)m13 * m30;
+                var det2x2_11_32 = (fp128)m11 * m32 - (fp128)m12 * m31;
+                var det2x2_11_33 = (fp128)m11 * m33 - (fp128)m13 * m31;
+                var det2x2_12_33 = (fp128)m12 * m33 - (fp128)m13 * m32;
+
+                var det3x3_00 = m11 * det2x2_22_33 - m12 * det2x2_21_33 + m13 * det2x2_21_32;
+                var det3x3_01 = m10 * det2x2_22_33 - m12 * det2x2_20_33 + m13 * det2x2_20_32;
+                var det3x3_02 = m10 * det2x2_21_33 - m11 * det2x2_20_33 + m13 * det2x2_20_31;
+                var det3x3_03 = m10 * det2x2_21_32 - m11 * det2x2_20_32 + m12 * det2x2_20_31;
+                var det3x3_10 = m01 * det2x2_22_33 - m02 * det2x2_21_33 + m03 * det2x2_21_32;
+                var det3x3_11 = m00 * det2x2_22_33 - m02 * det2x2_20_33 + m03 * det2x2_20_32;
+                var det3x3_12 = m00 * det2x2_21_33 - m01 * det2x2_20_33 + m03 * det2x2_20_31;
+                var det3x3_13 = m00 * det2x2_21_32 - m01 * det2x2_20_32 + m02 * det2x2_20_31;
+                var det3x3_20 = m01 * det2x2_12_33 - m02 * det2x2_11_33 + m03 * det2x2_11_32;
+                var det3x3_21 = m00 * det2x2_12_33 - m02 * det2x2_10_33 + m03 * det2x2_10_32;
+                var det3x3_22 = m00 * det2x2_11_33 - m01 * det2x2_10_33 + m03 * det2x2_10_31;
+                var det3x3_23 = m00 * det2x2_11_32 - m01 * det2x2_10_32 + m02 * det2x2_10_31;
+                var det3x3_30 = m01 * det2x2_12_23 - m02 * det2x2_11_23 + m03 * det2x2_11_22;
+                var det3x3_31 = m00 * det2x2_12_23 - m02 * det2x2_10_23 + m03 * det2x2_10_22;
+                var det3x3_32 = m00 * det2x2_11_23 - m01 * det2x2_10_23 + m03 * det2x2_10_21;
+                var det3x3_33 = m00 * det2x2_11_22 - m01 * det2x2_10_22 + m02 * det2x2_10_21;
+
+                var det = m00 * det3x3_00 - m01 * det3x3_01 + m02 * det3x3_02 - m03 * det3x3_03;
+                if (fp128math.Abs(det) < fpmath.Epsilon) return zero;
+                var invDet = fp128math.Rcp(det);
+                var inv = new fpmatrix4x4();
+                inv.m00 = (fp)(det3x3_00 * invDet);
+                inv.m01 = (fp)(-det3x3_10 * invDet);
+                inv.m02 = (fp)(det3x3_20 * invDet);
+                inv.m03 = (fp)(-det3x3_30 * invDet);
+                inv.m10 = (fp)(-det3x3_01 * invDet);
+                inv.m11 = (fp)(det3x3_11 * invDet);
+                inv.m12 = (fp)(-det3x3_21 * invDet);
+                inv.m13 = (fp)(det3x3_31 * invDet);
+                inv.m20 = (fp)(det3x3_02 * invDet);
+                inv.m21 = (fp)(-det3x3_12 * invDet);
+                inv.m22 = (fp)(det3x3_22 * invDet);
+                inv.m23 = (fp)(-det3x3_32 * invDet);
+                inv.m30 = (fp)(-det3x3_03 * invDet);
+                inv.m31 = (fp)(det3x3_13 * invDet);
+                inv.m32 = (fp)(-det3x3_23 * invDet);
+                inv.m33 = (fp)(det3x3_33 * invDet);
+                return inv;
             }
         }
 
@@ -336,9 +338,9 @@ namespace Fixed.Numeric
             var rcpdy = fp128math.Rcp(top - bottom);
             var rcpdz = fp128math.Rcp(zFar - zNear);
             return new fpmatrix4x4(
-                (fp) (rcpdx << 1), fp.Zero, fp.Zero, (fp) (-(right + left) * rcpdx),
-                fp.Zero, (fp) (rcpdy << 1), fp.Zero, (fp) (-(top + bottom) * rcpdy),
-                fp.Zero, fp.Zero, (fp) (-rcpdz << 1), (fp) (-(zFar + zNear) * rcpdz),
+                (fp)(rcpdx << 1), fp.Zero, fp.Zero, (fp)(-(right + left) * rcpdx),
+                fp.Zero, (fp)(rcpdy << 1), fp.Zero, (fp)(-(top + bottom) * rcpdy),
+                fp.Zero, fp.Zero, (fp)(-rcpdz << 1), (fp)(-(zFar + zNear) * rcpdz),
                 fp.Zero, fp.Zero, fp.Zero, fp.One
             );
         }
@@ -349,9 +351,9 @@ namespace Fixed.Numeric
             var cotangent = fp128math.Rcp(fp128math.Tan(fp128math.DegToRad(fov) >> 1));
             var rcpdz = fp128math.Rcp(zNear - zFar);
             return new fpmatrix4x4(
-                (fp) (cotangent * fp128math.Rcp(aspect)), fp.Zero, fp.Zero, fp.Zero,
-                fp.Zero, (fp) cotangent, fp.Zero, fp.Zero,
-                fp.Zero, fp.Zero, (fp) ((zFar + zNear) * rcpdz), (fp) (zNear * zFar * rcpdz << 1),
+                (fp)(cotangent * fp128math.Rcp(aspect)), fp.Zero, fp.Zero, fp.Zero,
+                fp.Zero, (fp)cotangent, fp.Zero, fp.Zero,
+                fp.Zero, fp.Zero, (fp)((zFar + zNear) * rcpdz), (fp)(zNear * zFar * rcpdz << 1),
                 fp.Zero, fp.Zero, -fp.One, fp.Zero
             );
         }
@@ -372,9 +374,9 @@ namespace Fixed.Numeric
             var rcpWidth = fp128math.Rcp(right - left);
             var rcpHeight = fp128math.Rcp(top - bottom);
             return new fpmatrix4x4(
-                (fp) (zNear * rcpWidth << 1), fp.Zero, (fp) ((left + right) * rcpWidth), fp.Zero,
-                fp.Zero, (fp) (zNear * rcpHeight << 1), (fp) ((bottom + top) * rcpHeight), fp.Zero,
-                fp.Zero, fp.Zero, (fp) ((zFar + zNear) * rcpdz), (fp) (zNear * zFar * rcpdz << 1),
+                (fp)(zNear * rcpWidth << 1), fp.Zero, (fp)((left + right) * rcpWidth), fp.Zero,
+                fp.Zero, (fp)(zNear * rcpHeight << 1), (fp)((bottom + top) * rcpHeight), fp.Zero,
+                fp.Zero, fp.Zero, (fp)((zFar + zNear) * rcpdz), (fp)(zNear * zFar * rcpdz << 1),
                 fp.Zero, fp.Zero, -fp.One, fp.Zero
             );
         }
@@ -489,38 +491,38 @@ namespace Fixed.Numeric
         public static fpmatrix4x4 operator *(fpmatrix4x4 lhs, fpmatrix4x4 rhs)
         {
             fpmatrix4x4 matrix;
-            matrix.m00 = (fp) ((fp128) lhs.m00 * rhs.m00 + (fp128) lhs.m01 * rhs.m10 + (fp128) lhs.m02 * rhs.m20 +
-                               (fp128) lhs.m03 * rhs.m30);
-            matrix.m01 = (fp) ((fp128) lhs.m00 * rhs.m01 + (fp128) lhs.m01 * rhs.m11 + (fp128) lhs.m02 * rhs.m21 +
-                               (fp128) lhs.m03 * rhs.m31);
-            matrix.m02 = (fp) ((fp128) lhs.m00 * rhs.m02 + (fp128) lhs.m01 * rhs.m12 + (fp128) lhs.m02 * rhs.m22 +
-                               (fp128) lhs.m03 * rhs.m32);
-            matrix.m03 = (fp) ((fp128) lhs.m00 * rhs.m03 + (fp128) lhs.m01 * rhs.m13 + (fp128) lhs.m02 * rhs.m23 +
-                               (fp128) lhs.m03 * rhs.m33);
-            matrix.m10 = (fp) ((fp128) lhs.m10 * rhs.m00 + (fp128) lhs.m11 * rhs.m10 + (fp128) lhs.m12 * rhs.m20 +
-                               (fp128) lhs.m13 * rhs.m30);
-            matrix.m11 = (fp) ((fp128) lhs.m10 * rhs.m01 + (fp128) lhs.m11 * rhs.m11 + (fp128) lhs.m12 * rhs.m21 +
-                               (fp128) lhs.m13 * rhs.m31);
-            matrix.m12 = (fp) ((fp128) lhs.m10 * rhs.m02 + (fp128) lhs.m11 * rhs.m12 + (fp128) lhs.m12 * rhs.m22 +
-                               (fp128) lhs.m13 * rhs.m32);
-            matrix.m13 = (fp) ((fp128) lhs.m10 * rhs.m03 + (fp128) lhs.m11 * rhs.m13 + (fp128) lhs.m12 * rhs.m23 +
-                               (fp128) lhs.m13 * rhs.m33);
-            matrix.m20 = (fp) ((fp128) lhs.m20 * rhs.m00 + (fp128) lhs.m21 * rhs.m10 + (fp128) lhs.m22 * rhs.m20 +
-                               (fp128) lhs.m23 * rhs.m30);
-            matrix.m21 = (fp) ((fp128) lhs.m20 * rhs.m01 + (fp128) lhs.m21 * rhs.m11 + (fp128) lhs.m22 * rhs.m21 +
-                               (fp128) lhs.m23 * rhs.m31);
-            matrix.m22 = (fp) ((fp128) lhs.m20 * rhs.m02 + (fp128) lhs.m21 * rhs.m12 + (fp128) lhs.m22 * rhs.m22 +
-                               (fp128) lhs.m23 * rhs.m32);
-            matrix.m23 = (fp) ((fp128) lhs.m20 * rhs.m03 + (fp128) lhs.m21 * rhs.m13 + (fp128) lhs.m22 * rhs.m23 +
-                               (fp128) lhs.m23 * rhs.m33);
-            matrix.m30 = (fp) ((fp128) lhs.m30 * rhs.m00 + (fp128) lhs.m31 * rhs.m10 + (fp128) lhs.m32 * rhs.m20 +
-                               (fp128) lhs.m33 * rhs.m30);
-            matrix.m31 = (fp) ((fp128) lhs.m30 * rhs.m01 + (fp128) lhs.m31 * rhs.m11 + (fp128) lhs.m32 * rhs.m21 +
-                               (fp128) lhs.m33 * rhs.m31);
-            matrix.m32 = (fp) ((fp128) lhs.m30 * rhs.m02 + (fp128) lhs.m31 * rhs.m12 + (fp128) lhs.m32 * rhs.m22 +
-                               (fp128) lhs.m33 * rhs.m32);
-            matrix.m33 = (fp) ((fp128) lhs.m30 * rhs.m03 + (fp128) lhs.m31 * rhs.m13 + (fp128) lhs.m32 * rhs.m23 +
-                               (fp128) lhs.m33 * rhs.m33);
+            matrix.m00 = (fp)((fp128)lhs.m00 * rhs.m00 + (fp128)lhs.m01 * rhs.m10 + (fp128)lhs.m02 * rhs.m20 +
+                               (fp128)lhs.m03 * rhs.m30);
+            matrix.m01 = (fp)((fp128)lhs.m00 * rhs.m01 + (fp128)lhs.m01 * rhs.m11 + (fp128)lhs.m02 * rhs.m21 +
+                               (fp128)lhs.m03 * rhs.m31);
+            matrix.m02 = (fp)((fp128)lhs.m00 * rhs.m02 + (fp128)lhs.m01 * rhs.m12 + (fp128)lhs.m02 * rhs.m22 +
+                               (fp128)lhs.m03 * rhs.m32);
+            matrix.m03 = (fp)((fp128)lhs.m00 * rhs.m03 + (fp128)lhs.m01 * rhs.m13 + (fp128)lhs.m02 * rhs.m23 +
+                               (fp128)lhs.m03 * rhs.m33);
+            matrix.m10 = (fp)((fp128)lhs.m10 * rhs.m00 + (fp128)lhs.m11 * rhs.m10 + (fp128)lhs.m12 * rhs.m20 +
+                               (fp128)lhs.m13 * rhs.m30);
+            matrix.m11 = (fp)((fp128)lhs.m10 * rhs.m01 + (fp128)lhs.m11 * rhs.m11 + (fp128)lhs.m12 * rhs.m21 +
+                               (fp128)lhs.m13 * rhs.m31);
+            matrix.m12 = (fp)((fp128)lhs.m10 * rhs.m02 + (fp128)lhs.m11 * rhs.m12 + (fp128)lhs.m12 * rhs.m22 +
+                               (fp128)lhs.m13 * rhs.m32);
+            matrix.m13 = (fp)((fp128)lhs.m10 * rhs.m03 + (fp128)lhs.m11 * rhs.m13 + (fp128)lhs.m12 * rhs.m23 +
+                               (fp128)lhs.m13 * rhs.m33);
+            matrix.m20 = (fp)((fp128)lhs.m20 * rhs.m00 + (fp128)lhs.m21 * rhs.m10 + (fp128)lhs.m22 * rhs.m20 +
+                               (fp128)lhs.m23 * rhs.m30);
+            matrix.m21 = (fp)((fp128)lhs.m20 * rhs.m01 + (fp128)lhs.m21 * rhs.m11 + (fp128)lhs.m22 * rhs.m21 +
+                               (fp128)lhs.m23 * rhs.m31);
+            matrix.m22 = (fp)((fp128)lhs.m20 * rhs.m02 + (fp128)lhs.m21 * rhs.m12 + (fp128)lhs.m22 * rhs.m22 +
+                               (fp128)lhs.m23 * rhs.m32);
+            matrix.m23 = (fp)((fp128)lhs.m20 * rhs.m03 + (fp128)lhs.m21 * rhs.m13 + (fp128)lhs.m22 * rhs.m23 +
+                               (fp128)lhs.m23 * rhs.m33);
+            matrix.m30 = (fp)((fp128)lhs.m30 * rhs.m00 + (fp128)lhs.m31 * rhs.m10 + (fp128)lhs.m32 * rhs.m20 +
+                               (fp128)lhs.m33 * rhs.m30);
+            matrix.m31 = (fp)((fp128)lhs.m30 * rhs.m01 + (fp128)lhs.m31 * rhs.m11 + (fp128)lhs.m32 * rhs.m21 +
+                               (fp128)lhs.m33 * rhs.m31);
+            matrix.m32 = (fp)((fp128)lhs.m30 * rhs.m02 + (fp128)lhs.m31 * rhs.m12 + (fp128)lhs.m32 * rhs.m22 +
+                               (fp128)lhs.m33 * rhs.m32);
+            matrix.m33 = (fp)((fp128)lhs.m30 * rhs.m03 + (fp128)lhs.m31 * rhs.m13 + (fp128)lhs.m32 * rhs.m23 +
+                               (fp128)lhs.m33 * rhs.m33);
             return matrix;
         }
 
@@ -528,14 +530,14 @@ namespace Fixed.Numeric
         public static fpvec4 operator *(fpmatrix4x4 lhs, fpvec4 vector)
         {
             fpvec4 vec;
-            vec.x = (fp) ((fp128) lhs.m00 * vector.x + (fp128) lhs.m01 * vector.y + (fp128) lhs.m02 * vector.z +
-                          (fp128) lhs.m03 * vector.w);
-            vec.y = (fp) ((fp128) lhs.m10 * vector.x + (fp128) lhs.m11 * vector.y + (fp128) lhs.m12 * vector.z +
-                          (fp128) lhs.m13 * vector.w);
-            vec.z = (fp) ((fp128) lhs.m20 * vector.x + (fp128) lhs.m21 * vector.y + (fp128) lhs.m22 * vector.z +
-                          (fp128) lhs.m23 * vector.w);
-            vec.w = (fp) ((fp128) lhs.m30 * vector.x + (fp128) lhs.m31 * vector.y + (fp128) lhs.m32 * vector.z +
-                          (fp128) lhs.m33 * vector.w);
+            vec.x = (fp)((fp128)lhs.m00 * vector.x + (fp128)lhs.m01 * vector.y + (fp128)lhs.m02 * vector.z +
+                          (fp128)lhs.m03 * vector.w);
+            vec.y = (fp)((fp128)lhs.m10 * vector.x + (fp128)lhs.m11 * vector.y + (fp128)lhs.m12 * vector.z +
+                          (fp128)lhs.m13 * vector.w);
+            vec.z = (fp)((fp128)lhs.m20 * vector.x + (fp128)lhs.m21 * vector.y + (fp128)lhs.m22 * vector.z +
+                          (fp128)lhs.m23 * vector.w);
+            vec.w = (fp)((fp128)lhs.m30 * vector.x + (fp128)lhs.m31 * vector.y + (fp128)lhs.m32 * vector.z +
+                          (fp128)lhs.m33 * vector.w);
             return vec;
         }
 
@@ -609,23 +611,23 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public fpvec3 MultiplyPoint(fpvec3 point)
         {
-            var vx = (fp128) m00 * point.x + (fp128) m01 * point.y + (fp128) m02 * point.z + m03;
-            var vy = (fp128) m10 * point.x + (fp128) m11 * point.y + (fp128) m12 * point.z + m13;
-            var vz = (fp128) m20 * point.x + (fp128) m21 * point.y + (fp128) m22 * point.z + m23;
-            var num = fp128math.Rcp((fp128) m30 * point.x + (fp128) m31 * point.y + (fp128) m32 * point.z + m33);
+            var vx = (fp128)m00 * point.x + (fp128)m01 * point.y + (fp128)m02 * point.z + m03;
+            var vy = (fp128)m10 * point.x + (fp128)m11 * point.y + (fp128)m12 * point.z + m13;
+            var vz = (fp128)m20 * point.x + (fp128)m21 * point.y + (fp128)m22 * point.z + m23;
+            var num = fp128math.Rcp((fp128)m30 * point.x + (fp128)m31 * point.y + (fp128)m32 * point.z + m33);
             vx *= num;
             vy *= num;
             vz *= num;
-            return new fpvec3((fp) vx, (fp) vy, (fp) vz);
+            return new fpvec3((fp)vx, (fp)vy, (fp)vz);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public fpvec3 MultiplyPoint3x4(fpvec3 point)
         {
             fpvec3 vec;
-            vec.x = (fp) ((fp128) m00 * point.x + (fp128) m01 * point.y + (fp128) m02 * point.z + m03);
-            vec.y = (fp) ((fp128) m10 * point.x + (fp128) m11 * point.y + (fp128) m12 * point.z + m13);
-            vec.z = (fp) ((fp128) m20 * point.x + (fp128) m21 * point.y + (fp128) m22 * point.z + m23);
+            vec.x = (fp)((fp128)m00 * point.x + (fp128)m01 * point.y + (fp128)m02 * point.z + m03);
+            vec.y = (fp)((fp128)m10 * point.x + (fp128)m11 * point.y + (fp128)m12 * point.z + m13);
+            vec.z = (fp)((fp128)m20 * point.x + (fp128)m21 * point.y + (fp128)m22 * point.z + m23);
             return vec;
         }
 
@@ -633,9 +635,9 @@ namespace Fixed.Numeric
         public fpvec3 MultiplyVector(fpvec3 vector)
         {
             fpvec3 vec;
-            vec.x = (fp) ((fp128) m00 * vector.x + (fp128) m01 * vector.y + (fp128) m02 * vector.z);
-            vec.y = (fp) ((fp128) m10 * vector.x + (fp128) m11 * vector.y + (fp128) m12 * vector.z);
-            vec.z = (fp) ((fp128) m20 * vector.x + (fp128) m21 * vector.y + (fp128) m22 * vector.z);
+            vec.x = (fp)((fp128)m00 * vector.x + (fp128)m01 * vector.y + (fp128)m02 * vector.z);
+            vec.y = (fp)((fp128)m10 * vector.x + (fp128)m11 * vector.y + (fp128)m12 * vector.z);
+            vec.z = (fp)((fp128)m20 * vector.x + (fp128)m21 * vector.y + (fp128)m22 * vector.z);
             return vec;
         }
 
@@ -688,25 +690,25 @@ namespace Fixed.Numeric
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static fpmatrix4x4 Rotate(fpquat q)
         {
-            var xx = (fp128) q.x * q.x;
-            var xy = (fp128) q.x * q.y;
-            var xz = (fp128) q.x * q.z;
-            var xw = (fp128) q.x * q.w;
-            var yy = (fp128) q.y * q.y;
-            var yz = (fp128) q.y * q.z;
-            var yw = (fp128) q.y * q.w;
-            var zz = (fp128) q.z * q.z;
-            var zw = (fp128) q.z * q.w;
+            var xx = (fp128)q.x * q.x;
+            var xy = (fp128)q.x * q.y;
+            var xz = (fp128)q.x * q.z;
+            var xw = (fp128)q.x * q.w;
+            var yy = (fp128)q.y * q.y;
+            var yz = (fp128)q.y * q.z;
+            var yw = (fp128)q.y * q.w;
+            var zz = (fp128)q.z * q.z;
+            var zw = (fp128)q.z * q.w;
             fpmatrix4x4 ret;
-            ret.m00 = (fp) (fp128.One - (yy + zz << 1));
-            ret.m01 = (fp) (xy - zw << 1);
-            ret.m02 = (fp) (xz + yw << 1);
-            ret.m10 = (fp) (xy + zw << 1);
-            ret.m11 = (fp) (fp128.One - (xx + zz << 1));
-            ret.m12 = (fp) (yz - xw << 1);
-            ret.m20 = (fp) (xz - yw << 1);
-            ret.m21 = (fp) (yz + xw << 1);
-            ret.m22 = (fp) (fp128.One - (xx + yy << 1));
+            ret.m00 = (fp)(fp128.One - (yy + zz << 1));
+            ret.m01 = (fp)(xy - zw << 1);
+            ret.m02 = (fp)(xz + yw << 1);
+            ret.m10 = (fp)(xy + zw << 1);
+            ret.m11 = (fp)(fp128.One - (xx + zz << 1));
+            ret.m12 = (fp)(yz - xw << 1);
+            ret.m20 = (fp)(xz - yw << 1);
+            ret.m21 = (fp)(yz + xw << 1);
+            ret.m22 = (fp)(fp128.One - (xx + yy << 1));
             ret.m03 = ret.m13 = ret.m23 = ret.m30 = ret.m31 = ret.m32 = fp.Zero;
             ret.m33 = fp.One;
             return ret;

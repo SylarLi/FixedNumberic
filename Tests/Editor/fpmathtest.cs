@@ -26,6 +26,8 @@ namespace Fixed.Numeric.Editor.Test
                 Assert.AreEqual((float)Math.Tan(value), (float)fpmath.Tan(value), epsilon);
                 Assert.AreEqual((float)Math.Atan(value), (float)fpmath.Atan(value), epsilon);
                 Assert.AreEqual((float)Math.Atan2(a, b), (float)fpmath.Atan2(a, b), epsilon);
+                Assert.AreEqual((float)1/a, (float)fpmath.Rcp(a), epsilon);
+                Assert.AreEqual((float)1/b, (float)fpmath.Rcp(b), epsilon);
                 if (value >= -1 && value <= 1)
                 {
                     Assert.AreEqual((float)Math.Asin(value), (float)fpmath.Asin(value), epsilon);
